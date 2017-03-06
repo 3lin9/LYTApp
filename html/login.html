@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style>
+			.mui-input-row label{width: 15%;padding: 6px 4px;text-align: center;}
+			.mui-input-row label~input{width: 85%;float: left;}
+			.mui-segmented-control{background-color: #FAFAFA;width: auto;margin: 0 auto;border-radius: inherit;border: none;}
+			.mui-segmented-control .mui-control-item{display: inline;padding: 10px 30px;color: #2885b1;border-color: #2885b1;}
+			#verfityCodeImg{
+			    background-color: #EEF3F9;
+			    overflow: hidden;
+			    display: inline-block;
+			    line-height: 40px;
+			    margin: 3px 7px;
+			}
+			.mui-input-group .mui-input-row{height: 45px;}
+			.mui-input-group{background-color: inherit;}
+			.mui-segmented-control .mui-control-item.mui-active{background-color: #2885b1;}
+			.mui-input-group:after{height: 0;}
+			.yzm{
+				width: 35%!important;
+			    margin-top: 4px;
+			    margin-right: 10px;
+			    font-size: 12px;
+			    color: #2885b1;
+			    background-color: #ddd;
+			    border: none;
+			}
+			input{font-size: 14px;}
+		</style>
+	</head>
+	<body>
+		<div class="header-image">
+			<!--<img src="image/top.png"/>-->
+			<img src="../image/bulid.png"/>
+			<p style="padding-bottom: 30px;">楼宇通</p>
+			<div id="segmentedControl" class="mui-segmented-control">
+				<a class="mui-control-item mui-active" href="#form1">
+					密码登录
+				</a>
+				<a class="mui-control-item" href="#form2">
+					手机号登录
+				</a>
+			</div>
+		</div>	
+		<div class="mui-content"style="margin: 0;">
+			<div id="form1" class="mui-control-content mui-active">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+					<label><span class="mui-icon mui-icon-person"></span></label>
+					<input id="userid" type="text" placeholder="用户名">
+					</div>
+					<div class="mui-input-row">
+						<label><span class="mui-icon mui-icon-locked"></span></label>
+						<input id="password" type="password" placeholder="密码">
+					</div>
+					<div class="mui-input-row">
+						<label><span class="mui-icon mui-icon-info"></span></label>
+						<input type="text" id="verfityCode"  placeholder="验证码"/>
+						<div id="verfityCodeImg" class="verfityCode" onclick="getverfityCode()"></div>
+					</div>
+					<div class="last-btn" onclick="loginCheck();" tabmode>
+						<div class="mui-btn mui-btn-primary" style="width:90%;margin: 20px auto;">
+							登录
+						</div>
+					</div>
+				</form>
+			</div>
+			<div id="form2" class="mui-control-content">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label><span class="mui-icon mui-icon-phone"></span></label>
+						<input id="phone" type="tel" placeholder="请输入中国移动手机号码">
+					</div>
+					<div class="mui-input-row">
+						<label><span class="mui-icon mui-icon-info"></span></label>
+						<input id="code" type="number" placeholder="验证码" style="width: 35%;">
+					<div class="mui-btn mui-btn mui-btn-primary mui-btn-outlined yzm" id="sendVerify" status="1" tapmode="" onclick="getVerify()">
+						获取手机验证码
+					</div>
+					</div>
+					<div class="last-btn">
+						<div class="mui-btn mui-btn-primary" style="width:90%;margin: 20px auto;"onclick="loginCheck_Phone();" tabmode>
+							登录
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script src="../script/mui.min.js"></script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+		var isinerval, times;
+		var curMode = 'username';
+		//当前登录模式，默认为用户名和密码
+		var phoneVCode = '';
+		//存储手机验证码
+		var lastFetchPhoneVCodeTime = null;
+		//上一次获取验证码的时间
+		apiready = function() {
+			api.parseTapmode();
+			getverfityCode();
+			var ulLoginMode = $api.domAll("#ulLoginMode li");
+			for (var i in ulLoginMode) {
+				$api.addEvt(ulLoginMode[i], 'click', function() {
+					$api.removeCls($api.dom("#ulLoginMode li.active"), 'active');
+					$api.addCls(this, 'active');
+				});
+			}
+			
+			api.parseTapmode();
+			var header = $api.byId('mui-header');		
+			$api.fixStatusBar(header);
+		}
+		//切换登录模式
+		function switchLoginMode(loginMode) {
+			if (loginMode == curMode) {//不需要切换
+				return;
+			}
+			var divUserNameMode = $api.byId('divUserNameMode');
+			var divPhoneMode = $api.byId('divPhoneMode');
+			if (loginMode == 'username') {
+				$api.removeCls(divUserNameMode, 'aui-hidden');
+				$api.addCls(divPhoneMode, 'aui-hidden');
+				curMode = 'username';
+			} else {
+				$api.removeCls(divPhoneMode, 'aui-hidden');
+				$api.addCls(divUserNameMode, 'aui-hidden');
+				curMode = 'phone';
+			}
+		}
+
+		function showDefault() {
+			$api.css($api.byId("default"), "display:block");
+			setTimeout(function() {
+				$api.css($api.byId("default"), "display:none");
+			}, 2000)
+		}
+
+		function showSuccess() {
+			$api.css($api.byId("success"), "display:block");
+			setTimeout(function() {
+				$api.css($api.byId("success"), "display:none");
+			}, 1000)
+		}
+
+		function showErrorVcode() {
+			$api.css($api.byId("dvcode"), "display:block");
+			setTimeout(function() {
+				$api.css($api.byId("dvcode"), "display:none");
+				getverfityCode();
+			}, 2000)
+		}
+
+		function showPassword() {
+			$api.attr($api.byId('password'), 'type', 'text');
+			$api.removeCls($api.byId('showpass-btn'), 'aui-icon-attention');
+			$api.addCls($api.byId('showpass-btn'), 'aui-icon-attentionfill');
+			$api.attr($api.byId('showpass-btn'), 'onclick', 'hidePassword();');
+			api.parseTapmode();
+		}
+
+		function hidePassword() {
+			$api.attr($api.byId('password'), 'type', 'password');
+			$api.removeCls($api.byId('showpass-btn'), 'aui-icon-attentionfill');
+			$api.addCls($api.byId('showpass-btn'), 'aui-icon-attention');
+			$api.attr($api.byId('showpass-btn'), 'onclick', 'showPassword();');
+			api.parseTapmode();
+		}
+
+		function getSeconds(endDate, beginDate) {
+			var ticks = endDate.getTime() - beginDate.getTime();
+			//时间差毫秒
+			//计算相差秒数
+			var seconds = Math.round(ticks / 1000);
+			return seconds;
+		}
+
+		function getVerify() {
+			/*if(lastFetchPhoneVCodeTime == null){
+			 lastFetchPhoneVCodeTime = new Date();
+			 //alert("第一次获取验证码的时间是：" + lastFetchPhoneVCodeTime);
+			 }else{
+			 var curTime = new Date();
+			 var seconds = getSeconds(curTime, lastFetchPhoneVCodeTime);
+			 alert("seconds:" + seconds);
+			 if(seconds < 60){
+			 api.toast({
+			 msg : '1分钟内只能获取1次手机验证码',
+			 duration : 2000,
+			 location : 'middle'
+			 });
+			 return;
+			 }else{
+			 //alert("准备更新最后一次获取验证码时间");
+			 lastFetchPhoneVCodeTime = new Date();
+			 }
+			 //alert("离上次获取验证码已过去： " + seconds + " 秒");
+			 }*/
+			var phoneDom = $api.byId('phone');
+			var phone = $api.val(phoneDom);
+			if ($api.trimAll(phone) == '') {
+				api.toast({
+					msg : '请输入手机号码！',
+					duration : 2000,
+					location : 'middle'
+				});
+				return;
+			}
+			//生成手机验证码
+			var sendVerify = $api.byId('sendVerify');
+			var status = $api.attr(sendVerify, 'status');
+			if (status != 1) {
+				return;
+			} else {
+				//置为不可用
+				$api.attr(sendVerify, 'status', 0);
+				$api.removeAttr(sendVerify, 'onclick');
+				$api.html(sendVerify, '<span id="GetVerify">120</span>S');
+				api.parseTapmode();
+				times = 59;
+				isinerval = setInterval("CountDown()", 1000);
+				var curPhoneVCode = getPhoneVCode();
+				//发送短信验证码
+				var SmsMsg = "[楼宇通APP] " + curPhoneVCode + "（登录短信验证码）。中国移动。";
+				//短信内容
+				ajaxRequestData({
+					"RequestId" : "", //暂时不用
+					"MethodName" : "SendSms",
+					"MobileNo" : "" + phone + "",
+					"SmsMsg" : "" + SmsMsg + ""
+				}, function(ret, err) {
+					if (ret) {
+						if (ret.FLAG == '0') {
+							//获取成功
+							api.toast({
+								msg : '短信验证码已发送，请留意稍后的短信！',
+								duration : 2000,
+								location : 'middle'
+							});
+						} else {
+							api.toast({
+								msg : '' + ret.BODY + '',
+								duration : 2000,
+								location : 'middle'
+							});
+						}
+					} else {
+						api.alert({
+							msg : err.msg
+						});
+					}
+				});
+				/*setTimeout(function() {
+				 //$api.val($api.byId("code"), '888888');
+				 }, 60000)*/
+			}
+		}
+
+		function CountDown() {
+			if (times < 1) {
+				var sendVerify = $api.byId('sendVerify');
+				$api.attr(sendVerify, 'onclick', 'getVerify()');
+				$api.attr(sendVerify, 'status', '1');
+				api.parseTapmode();
+				$api.html(sendVerify, '重新获取');
+				clearInterval(isinerval);
+				return;
+			}
+			var getVerify = $api.byId('GetVerify');
+			$api.html(getVerify, '' + times + '');
+			times--;
+		}
+
+		function getverfityCode() {
+			getChaos();
+			var verfityImg = $api.byId('verfityCodeImg');
+			removeDomsByClass('vcode');
+			//获取验证码内容
+			var arr = getVCode();
+			var vcode = '';
+			for (var i = 0; i < arr.length; i++) {
+				vcode += arr[i];
+				var vector = getRandom(-10, 5);
+				var hvector = getRandom(0, 10);
+				var color = randomColor();
+				$api.append(verfityImg, '<span class="vcode" style="top:' + vector + 'px;left:' + hvector + 'px;color:#' + color + ';">' + arr[i] + '</span>');
+			}
+			//$api.setStorage('vcode', vcode);
+			verfityCode = vcode;
+		}
+
+		function getVCode() {
+			var arr = ['2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+			var resArr = [];
+			for (var i = 0; i <= 3; i++) {
+				var index = getRandom(0, arr.length);
+				resArr[i] = arr[index];
+			}
+			return resArr;
+		}
+
+		function getPhoneVCode() {
+			var arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+			phoneVCode = "";
+			for (var i = 0; i <= 5; i++) {
+				var index = getRandom(0, arr.length);
+				phoneVCode += arr[index];
+			}
+			return phoneVCode;
+		}
+
+		function getRandom(min, max) {
+			return Math.floor(min + Math.random() * (max - min));
+		}
+
+		function getChaos() {
+			removeDomsByClass('chaos');
+			var verfityCodeImg = $api.byId('verfityCodeImg');
+			var offset = $api.offset(verfityCodeImg);
+			var left = offset.l;
+			var top = offset.t;
+			var width = offset.w;
+			var height = offset.h;
+			var lineCount = getRandom(8, 13);
+			for (var i = 0; i < lineCount; i++) {
+				var lineWidth = getRandom(1, 100);
+				var lineHeight = getRandom(1, 3);
+				var x = getRandom(0, width);
+				var y = getRandom(0, height);
+				var color = randomColor();
+				$api.append(verfityCodeImg, '<span class="chaos" style="background:#' + color + ';width:' + lineWidth + 'px;height:' + lineHeight + 'px;top:' + y + 'px;left:' + x + 'px"></span>');
+			}
+			//$api.append(verfityCodeImg,'<div style="position:absolute;width:'+width+'px;height:'+height+'px;top:'+top+';left:'+left+';border:1px solid red"></div>');
+		}
+
+		function removeDomsByClass(className) {
+			var obj = $api.domAll('.' + className + '');
+			if (obj.length != 0) {
+				for (var i = 0; i < obj.length; i++) {
+					$api.remove(obj[i]);
+				}
+			}
+		}
+
+		function randomColor() {
+			var rand = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+			if (rand.length == 6) {
+				return rand;
+			} else {
+				return randomColor();
+			}
+		}
+
+		function loginCheck() {
+			//模拟登录成功
+			$api.setStorage("ktAPP_userInfo", {'loginName':'zhangsan', 'name':'张三', 'userid':'12345'});
+			$api.setStorage('loginName', "zhangsan");
+			$api.setStorage('name', "张三");
+			$api.setStorage('userid', "12345");
+			setTimeout(function() {
+				api.closeWin();
+			}, 100);
+
+			api.openWin({
+				name : 'root',
+				url : '../index.html',
+				vScrollBarEnabled : true,
+				hScrollBarEnabled : false,
+				reload : true,
+				bounces : true,				
+				progress : {
+					type : "default", //加载进度效果类型，默认值为default，取值范围为default|page，default等同于showProgress参数效果；为page时，进度效果为仿浏览器类型，固定在页面的顶部
+					title : "加载中", //type为default时显示的加载框标题
+					text : "请等候", //type为default时显示的加载框内容
+					color : "#45C01A" //type为page时进度条的颜色，默认值为#45C01A，支持#FFF，#FFFFFF，rgb(255,255,255)，rgba(255,255,255,1.0)等格式
+				},
+				delay : 100
+			});
+			return;
+			api.showProgress({
+				style : 'default',
+				animationType : 'fade',
+				title : '努力登录中...',
+				text : '请稍后...',
+				modal : true
+			});
+			var userid_dom = $api.byId('userid');
+			var password_dom = $api.byId('password');
+			var userid = $api.val(userid_dom);
+			var password = $api.val(password_dom);
+			var vcode_dom = $api.byId('verfityCode');
+			var vcode = $api.val(vcode_dom);
+			if (vcode != verfityCode) {
+				api.hideProgress();
+				showErrorVcode();
+				return;
+			} else {
+				ajaxRequestData({
+					"RequestId" : "", //暂时不用
+					"MethodName" : "CheckLogin",
+					"LoginID" : "" + userid + "",
+					"Password" : "" + password + "",
+					"VerificationCode" : vcode,
+					"Extend" : ""
+				}, function(ret, err) {
+					api.hideProgress();
+					if (ret) {
+						if (ret.FLAG == '0') {
+							//登录成功
+							showSuccess();
+							/*$api.setStorage('loginName', userid);
+							$api.setStorage('name', ret.NAME);
+							$api.setStorage('userid', ret.USERID);
+							if (password == "123456") {
+								//如果是初始密码(123456)，则强制修改
+								api.openWin({
+									name : 'changePwd',
+									url : 'changePwd_win.html',
+									opaque : true,
+									vScrollBarEnabled : false
+								});
+								setTimeout(function() {
+									api.closeWin({
+										name : 'login'
+									});
+								}, 500);
+								return;
+							}*/
+							setTimeout(function() {
+								api.closeWin();
+							}, 100);
+							openWin({
+								name : 'root',
+								url : '../index.html',
+								reload : true
+							});
+						} else if (ret.FLAG == '1') {
+							//登录失败
+							//showDefault();
+							api.toast({
+								msg : '' + ret.BODY + '',
+								duration : 2000,
+								location : 'middle'
+							});
+						} else {
+							//系统异常
+							//showDefault();
+							api.toast({
+								msg : '' + ret.BODY + '',
+								duration : 2000,
+								location : 'middle'
+							});
+						}
+					} else {
+						api.alert({
+							msg : err.msg
+						});
+					}
+				})
+			}
+		}
+
+		function loginCheck_Phone() {
+			var phoneDom = $api.byId('phone');
+			var phone = $api.val(phoneDom);
+			if ($api.trimAll(phone) == '') {
+				api.toast({
+					msg : '请输入手机号码！',
+					duration : 2000,
+					location : 'middle'
+				});
+				return;
+			}
+			var codeDom = $api.byId('code');
+			var code = $api.val(codeDom);
+			if (code != phoneVCode) {
+				api.toast({
+					msg : '您输入的短信验证码不正确！',
+					duration : 2000,
+					location : 'middle'
+				});
+				return;
+			}
+			api.showProgress({
+				style : 'default',
+				animationType : 'fade',
+				title : '努力登录中...',
+				text : '请稍后...',
+				modal : true
+			});
+			//根据手机号码查询用户信息
+			ajaxRequestData({
+				"RequestId" : "", //暂时不用
+				"MethodName" : "QueryUserByMobile",
+				"MobileNo" : "" + phone + ""
+			}, function(ret, err) {
+				api.hideProgress();
+				if (ret) {
+					if (ret.FLAG == '0') {
+						//登录成功
+						showSuccess();
+						phoneVCode = '';
+						//短信验证码清空
+						$api.setStorage('loginName', ret.LOGINID);
+						$api.setStorage('name', ret.USERNAME);
+						$api.setStorage('userid', ret.USERID);
+						//绑定推送信息
+						var push = api.require('push');
+						push.bind({
+							userName : '' + ret.LOGINID + '',
+							userId : '' + ret.LOGINID + ''
+						}, function(ret, err) {
+							/*if(ret.status){
+							 api.alert({msg:'绑定成功'});
+							 }else{
+							 api.alert({msg:err.msg});
+							 }*/
+						});
+						setTimeout(function() {
+							api.closeWin();
+						}, 100);
+						openWin({
+							name : 'root',
+							url : '../index.html',
+							reload : true
+						});
+					} else {
+						//手机号对应用户信息不存在
+						api.toast({
+							msg : '' + ret.BODY + '',
+							duration : 2000,
+							location : 'middle'
+						});
+					}
+				} else {
+					api.alert({
+						msg : err.msg
+					});
+				}
+			})
+		}
+	</script>
+</html>

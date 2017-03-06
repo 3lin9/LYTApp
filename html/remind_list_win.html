@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>到期提醒</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.info_left {
+				margin-right: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<header id="mui-header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">到期提醒</h1>
+			<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+		</header>		
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		function closeWin() {
+			api.closeWin();
+		}
+
+		apiready = function() {
+			api.parseTapmode();
+			var header = $api.byId('mui-header');
+			var content = $api.byId('content')
+			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+			api.openFrame({
+				name : 'remind_list_frm',
+				url : 'remind_list_frm.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : headerPos.h,
+					w : headerPos.w,
+					h : 'auto'
+				}
+			})
+		};
+		
+		function selectBeginDate() {
+			var curDate = new Date();
+			var strCurdate = curDate.getFullYear() + '-' + curDate.getMonth() + '-' + curDate.getDate();
+			api.openPicker({
+				type : 'date_time',
+				date : strCurdate,
+				title : '请选择开始时间'
+			}, function(ret, err) {
+				if (ret) {
+					//alert(JSON.stringify(ret));
+					var spanYYDate = $api.byId('BeginDate');
+					var month, day;
+					if (ret.month < 10) {
+						month = '0' + ret.month;
+					} else {
+						month = ret.month;
+					}
+					if (ret.day < 10) {
+						day = '0' + ret.day;
+					} else {
+						day = ret.day;
+					}
+					$api.text(spanYYDate, ret.year + '-' + month + '-' + day);
+					$api.append(spanYYDate, "<span class='mui-icon mui-icon-close' onclick='beginTimeClear()'></span>");
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function selectEndDate() {
+			var curDate = new Date();
+			var strCurdate = curDate.getFullYear() + '-' + curDate.getMonth() + '-' + curDate.getDate();
+			api.openPicker({
+				type : 'date_time',
+				date : strCurdate,
+				title : '请选择结束时间'
+			}, function(ret, err) {
+				if (ret) {
+					//alert(JSON.stringify(ret));
+					var spanYYDate = $api.byId('EndTime');
+					var month, day;
+					if (ret.month < 10) {
+						month = '0' + ret.month;
+					} else {
+						month = ret.month;
+					}
+					if (ret.day < 10) {
+						day = '0' + ret.day;
+					} else {
+						day = ret.day;
+					}
+					$api.text(spanYYDate, ret.year + '-' + month + '-' + day);
+					$api.append(spanYYDate, "<span class='mui-icon mui-icon-close' onclick='endTimeClear()'></span>");
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function beginTimeClear() {
+			$api.text($api.byId('BeginDate'), '开始时间');
+		}
+
+		function endTimeClear() {
+			$api.text($api.byId('EndTime'), '结束时间');
+		}
+
+
+		function openWin(name) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openFrame({
+				name : '' + name + '',
+				url : name + '.html',
+				bounces : false,
+				rect : {
+					x : 0,
+					y : 0,
+					w : 'auto',
+					h : 'auto'
+				},
+				animation : {
+					type : "push"
+				}
+			});
+		}
+	</script>
+</html>

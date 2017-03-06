@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css">
+		<style>
+			html {
+				background-color: #efeff4;
+			}
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			.mui-bar-header-secondary {
+				background-color: #3cade7;
+				background-image: url(../image/user-backimg.jpg);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				height: 200px;
+				color: #fff;
+			}
+			.icon-user-center-person {
+				display: inline-block;
+				margin-top: 60px;
+				width: 70px;
+				height: 70px;
+				background-image: url(../image/user-center-person.png);
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+			.mui-bar-header-secondary~
+			.mui-content {
+				padding: 0;
+			}
+			p {
+				color: #fff;
+			}
+			.mui-icon-home {
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mui-header" class="mui-bar-header-secondary mui-text-center">
+			<div style="display: inline-block;position: absolute;right: 10px;top: 25px;">
+				<a class="mui-icon mui-icon-home mui-pull-right" tapmode onclick="GoHome();"></a>
+			</div>
+			<span class="icon-user-center-person"></span>
+			<p>
+				王小亚
+				<br/>
+				<span id="spanUserInfo">1839284432</span>
+			</p>
+		</div>
+		<div class="mui-content" id="content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" tapmode onclick="clearCache();">
+					<a class="mui-navigate-right"> 清除缓存 <span id="spanCacheSize" class="mui-badge mui-badge-danger">0M</span></a>
+				</li>
+				<li class="mui-table-view-cell" tapmode onclick="downloadAndOpenFile('requirebook.doc')">
+					<a class="mui-navigate-right"> 使用帮助 </a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 25px;">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">自动更新 </a>
+					<div class="mui-switch mui-active">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 25px;">
+				<li class="mui-table-view-cell">
+					<a id="version"> 当前版本号： <span id="spanCurAppVersion" class="aui-pull-right"></span></a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin:0 auto;margin-top: 25px;width: 90%; background-color: inherit;">
+				<li class="mui-table-view-cell" onclick="logout();">
+					<a style="text-align: center;color: white; background-color: #2885b1;border-radius: 6px;"> 安全退出 </a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/common.js" ></script>
+	<script type="text/javascript" src="../script/mui.min.js" ></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();
+			showUserInfo();
+			getCacheSize();
+			var spanCurAppVersionDom = $api.byId('spanCurAppVersion');
+			$api.text(spanCurAppVersionDom, api.appVersion);
+			var header = $api.byId('mui-header');
+			$api.fixStatusBar(header);
+		}
+		function showUserInfo() {
+			var userInfo = $api.getStorage('lytAPP_userInfo');
+			//alert(JSON.stringify(userInfo));
+			//var loginName = userInfo.loginName;
+			var userName = "张三";
+			//userInfo.name;
+			var spanUserInfo = $api.byId('spanUserInfo');
+			var phone = '13800138000';
+			$api.text(spanUserInfo, userName + '(' + phone + ')');
+		}
+
+		function clearCache() {
+			api.confirm({
+				msg : '确定要清除缓存吗？',
+				buttons : ['确定', '取消']
+			}, function(ret, err) {
+				if (ret) {
+					if (ret.buttonIndex == 1) {
+						api.clearCache(function(ret, err) {
+							if (ret) {
+								var spanCacheSizeDom = $api.byId("spanCacheSize");
+								var cacheSize = '0M';
+								$api.text(spanCacheSizeDom, cacheSize);
+								api.alert({
+									msg : '清除缓存成功'
+								});
+							} else {
+								api.alert({
+									msg : '清除缓存失败，请重试'
+								});
+							}
+						});
+					}
+				} else {
+				}
+			});
+		}
+
+		function getCacheSize() {
+			api.getCacheSize(function(ret, err) {
+				var spanCacheSizeDom = $api.byId("spanCacheSize");
+				if (ret) {
+					var cacheSize = (Math.round(((ret.size / 1024 / 1024) * 100)) / 100) + 'M';
+					$api.text(spanCacheSizeDom, cacheSize);
+				} else {
+					$api.text(spanCacheSizeDom, "未知");
+				}
+			});
+		}
+
+		function downloadAndOpenFile(fileName) {
+			api.alert({
+				msg : '此功能暂未开放，请耐心等待...'
+			});
+			return;
+			api.showProgress({
+				style : 'default',
+				animationType : 'fade',
+				title : '努力下载中...',
+				text : '请稍后...',
+				modal : true
+			});
+			downloadFile(fileName, function(ret, err) {
+				if (ret) {
+					var state = ret.state;
+					if (state == 0) {
+						//下载中
+						var liHelp1 = $api.byId('liHelp1');
+						$api.removeCls(liHelp1, 'aui-hidden');
+						var ap_barDom = $api.dom(liHelp1, '.aui-progress-bar');
+						$api.attr(ap_barDom, 'style', 'width: ' + ret.percent + '%;');
+						//$api.text(span1, ret.percent + '%');
+					} else if (state == 1) {
+						//下载完成
+						api.hideProgress();
+						var liHelp1 = $api.byId('liHelp1');
+						$api.addCls(liHelp1, 'aui-hidden');
+						var ap_barDom = $api.dom(liHelp1, '.aui-progress-bar');
+						$api.attr(ap_barDom, 'style', 'width: 0%;');
+						//下载成功，打开
+						var docPath = ret.savePath;
+						var docReader = api.require('docReader');
+						docReader.open({
+							path : docPath
+						}, function(ret, err) {
+							if (ret && ret.status) {
+								//alert("打开成功");
+							} else {
+								//alert("err.code");
+								if (err.code == 2) {
+									api.alert({
+										msg : '温馨提示：请您先安装支持打开该文件格式的软件'
+									});
+								} else if (err.code == 1) {
+									api.alert({
+										msg : '您打开的文件不存在'
+									});
+								} else {
+									api.alert({
+										msg : '未知错误'
+									});
+								}
+							}
+						});
+					} else {
+						//下载失败
+						api.hideProgress();
+						var liHelp1 = $api.byId('liHelp1');
+						$api.addCls(liHelp1, 'aui-hidden');
+						var ap_barDom = $api.dom(liHelp1, '.aui-progress-bar');
+						$api.attr(ap_barDom, 'style', 'width: 0%;');
+						api.alert({
+							msg : '下载失败，请重试'
+						});
+					}
+				} else {
+					api.hideProgress();
+					var liHelp1 = $api.byId('liHelp1');
+					$api.addCls(liHelp1, 'aui-hidden');
+					var ap_barDom = $api.dom(liHelp1, '.aui-progress-bar');
+					$api.attr(ap_barDom, 'style', 'width: 0%;');
+					api.alert({
+						msg : '下载失败，请重试'
+					});
+				}
+			});
+		}
+
+		function modifyPassword() {
+			openWin('modifyPwd_frm', 'modifyPwd_win.html');
+		}
+
+		function logout() {
+			$api.rmStorage('lytAPP_userInfo');
+			api.openWin({
+				name : 'login',
+				url : 'login.html',
+				opaque : true,
+				vScrollBarEnabled : false,
+				reload : true
+			});
+		}
+
+		function GoHome() {
+			api.closeToWin({
+				name : 'testWin'
+			});
+		}
+	</script>
+</html>

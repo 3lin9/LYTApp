@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>楼宇通APP</title>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<style type="text/css">
+		body{background-color: #f6f6f6;}
+			.mui-grid-view.mui-grid-9 .mui-media{background-color: #fff;}
+			.mui-bar{background-color: #417dd5;}
+			.mui-title{color: white;font-weight: bold;font-size: 18px;}
+			.mui-bar-nav~.mui-content{padding-top: 0;}
+			.mui-grid-view.mui-grid-9 .mui-media .mui-icon{font-size: 3rem;}
+			.mui-grid-view.mui-grid-9 .mui-media{color: #3cade7;}
+			.mui-icon-compose{color: #3cade7;}
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell{border-right: 1px solid #e5e5e5;border-bottom: 1px solid #e5e5e5;padding: 12px 0;}
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{font-size: 14px;}
+			.mui-table-view-cell>.mui-badge{top: 25%;right: 20%;}
+			.mui-badge{background-color: red;color: white;}
+		</style>
+	</head>
+	<body>
+		<div class="header-image">
+			<!--<img src="image/top.png"/>-->
+			<img src="image/bulid.png"/>
+			<p>楼宇通</p>
+			<div class="basic-date">
+				<div class="_name">向波</div>
+				<div class="quef"></span>13593929132</div>
+				<div class="quef">天河分公司</div>
+				<div class="quef">管辖楼宇数量：<span class="num">30</span></div>
+			</div>
+		</div>		
+		<div class="mui-content">
+			<ul class="mui-table-view mui-grid-view mui-grid-9">
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('message_list_win')">
+	                    <span class="icon mail"></span><span class="mui-badge">5</span>
+	                    <div class="mui-media-body">预覆盖楼捷报</div></li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('remind_list_win')">
+	                    <span class="icon tip"></span><span class="mui-badge">5</span>
+	                    <div class="mui-media-body">到期提醒</div></li>
+	        	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('myBuilding_list_win')">
+	                    <span class="icon mybuild"></span>
+	                    <div class="mui-media-body">我的楼宇</div></li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('myTask_list_win')">
+	                    <span class="icon mytast"></span>
+	                    <div class="mui-media-body">我的任务</div></li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('policy_list_win')">
+	                    <span class="icon polic"></span>
+	                    <div class="mui-media-body">政策传达</div></li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('myBuilding_list02_frm')">
+	                    <span class="icon ycgjd"></span>
+	                    <div class="mui-media-body">预覆盖进度</div></li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('progress_list_frm')">
+	                    <span class="icon zycx"></span>
+	                    <div class="mui-media-body">专线查询</div></li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('policy_list_win')">
+	                    <span class="icon zxjd"></span>
+	                    <div class="mui-media-body">专线结单</div></li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" tabmode onclick="openWin('user_center')">
+	                    <span class="icon user"></span>
+	                    <div class="mui-media-body">个人中心</div></li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="script/api.js"></script>
+	<script src="script/mui.min.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();			
+			//mui.init();
+		};
+		function openWin(name) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openWin({
+				name : '' + name + '',
+				url : 'html/' + name + '.html',
+				bounces : false,
+				delay : delay
+			});
+			/*api.openFrame({
+	            name : '' + name + '',
+				url : 'html/' + name + '.html',
+	            bounces: false,
+	            rect: {
+	                x: 0,
+	                y: 0,
+	                w: 'auto',
+	                h: 'auto'
+	            },
+	            animation:{
+	            	type:"push"
+	            }
+	       	});*/
+		}
+	</script>
+</html>

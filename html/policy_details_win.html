@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>政策详情</title>
+		<link href="../css/mui.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-card {
+				margin: 0;
+				background-color: inherit;
+			}
+			.mui-content > .mui-card:first-child {
+				margin-top: 5px;
+			}
+			.mui-table-view {
+				padding: 0;
+				color: #676767;
+				background-color: inherit;
+			}
+			.mui-table-view-cell {
+				background-color: white;
+			}
+			.details div {
+				width: 30%;
+			}
+			.head-info:after {
+				height: 0;
+			}
+			.mui-navigate-right {
+				padding-right: 24px !important;
+			}
+
+		</style>
+	</head>
+	<body>
+		<header id="mui-header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">政策详情</h1>
+			<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a><a class="mui-icon mui-icon-home mui-pull-right" tapmode onclick="GoHome();"></a>
+		</header>
+		<script src="../script/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../script/mui.min.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			function closeWin() {
+				api.closeWin();
+			}
+
+			apiready = function() {
+				api.parseTapmode();
+				var header = $api.byId('mui-header');
+				$api.fixStatusBar(header);
+				var headerPos = $api.offset(header);
+				api.openFrame({
+					name : 'policy_details_frm',
+					url : 'policy_details_frm.html',
+					bounces : false,
+					rect : {
+						x : 0,
+						y : headerPos.h,
+						w : headerPos.w,
+						h : 'auto'
+					}
+				})
+			};
+			function GoHome() {
+				api.closeToWin({
+					name : 'testWin'
+				});
+			}
+		</script>
+	</body>
+</html>

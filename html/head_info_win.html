@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+   <link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+</head>
+<body>
+	<header id="mui-header" class="mui-bar mui-bar-nav">
+		<h1 class="mui-title" id="header-title"></h1>
+		<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a><a class="mui-icon mui-icon-home mui-pull-right" tapmode onclick="GoHome();"></a>
+	</header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	var HeaderName,DetailPage;
+			apiready = function() {
+				api.parseTapmode();
+				var headerTitle = $api.byId('header-title');
+				var header = $api.byId('mui-header');
+//				$api.fixStatusBar(header);
+				HeaderName = api.pageParam.HeadName;
+				DetailPage = api.pageParam.Page;
+				$api.text(headerTitle, HeaderName);
+				var headerPos = $api.offset(header);
+				api.openFrame({
+					name : DetailPage,
+					url : DetailPage+'_frm.html',
+					bounces : false,
+					rect : {
+						x : 0,
+						y : headerPos.h,
+						w : headerPos.w,
+						h : 'auto'
+					}
+				});
+			};
+		function closeWin() {
+			api.closeWin();
+		};
+		function GoHome() {
+				api.closeToWin({
+					name : 'testWin'
+				});
+			}
+</script>
+</html>

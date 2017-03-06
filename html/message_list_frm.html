@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>新增预覆盖楼捷报</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style>
+			.mui-card {
+				margin: 7px 2px !important;
+				border: none;
+			}
+			.mui-ellipsis-1 {
+				-webkit-line-clamp: 2;
+			}
+			h5 {
+				display: inline-block;
+			}
+			.message {
+				color: #888;
+			}
+			
+			.readed{
+				filter: grayscale(100%);
+				-webkit-filter: grayscale(100%);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content">
+			<div class="mui-card"  tapmode onclick="openWin('message_details_win');">
+				<ul class="mui-table-view UNREAD">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+						<div class="mui-ellipsis-1">
+							<span class="jiebap-icon"></span><h5>【投产捷报】</h5>
+							<div class="message">
+								越秀分公司【六榕大厦】等【2个】千楼覆盖项目（覆盖模式：PTN+GPON）S
+							</div>
+						</div>
+						<p class="send-name">
+							<span class="mui-icon mui-icon-person"></span><span>张三</span>
+						</p>
+						<p class="send-time">
+							<span class="mui-icon mui-icon-time"></span><span>2016-6-20</span>
+						</p> </a>
+					</li>
+				</ul>
+			</div>
+			<div class="mui-card">
+				<ul class="mui-table-view UNREAD">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+						<div class="mui-ellipsis-1">
+							<span class="jiebap-icon readed"></span><h5>【投产捷报】</h5>
+							<div class="message">
+								越秀分公司【明达大厦】等【2个】千楼覆盖项目（覆盖模式：PTN+GPON）S
+							</div>
+						</div>
+						<p class="send-name">
+							<span class="mui-icon mui-icon-person"></span><span>张三</span>
+						</p>
+						<p class="send-time">
+							<span class="mui-icon mui-icon-time"></span><span>2016-6-20</span>
+						</p> </a>
+					</li>
+				</ul>
+			</div>
+			<div class="mui-card">
+				<ul class="mui-table-view UNREAD">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+						<div class="mui-ellipsis-1">
+							<span class="jiebap-icon"></span><h5>【投产捷报】</h5>
+							<div class="message">
+								越秀分公司【一德市场大厦】等【3个】千楼覆盖项目（覆盖模式：PTN+GPON）S
+							</div>
+						</div>
+						<p class="send-name">
+							<span class="mui-icon mui-icon-person"></span><span>张三</span>
+						</p>
+						<p class="send-time">
+							<span class="mui-icon mui-icon-time"></span><span>2016-6-20</span>
+						</p> </a>
+					</li>
+				</ul>
+			</div>
+			<div class="mui-card">
+				<ul class="mui-table-view UNREAD">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+						<div class="mui-ellipsis-1">
+							<span class="jiebap-icon"></span><h5>【投产捷报】</h5>
+							<div class="message">
+								越秀分公司【天秀社区】等【2个】千楼覆盖项目（覆盖模式：PTN+GPON）S
+							</div>
+						</div>
+						<p class="send-name">
+							<span class="mui-icon mui-icon-person"></span><span>张三</span>
+						</p>
+						<p class="send-time">
+							<span class="mui-icon mui-icon-time"></span><span>2016-6-20</span>
+						</p> </a>
+					</li>
+				</ul>
+			</div>	
+			<div class="mui-card">
+				<ul class="mui-table-view UNREAD">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+						<div class="mui-ellipsis-1">
+							<span class="jiebap-icon"></span><h5>【投产捷报】</h5>
+							<div class="message">
+								越秀分公司【置地大厦】等【2个】千楼覆盖项目（覆盖模式：PTN+GPON）S
+							</div>
+						</div>
+						<p class="send-name">
+							<span class="mui-icon mui-icon-person"></span><span>张三</span>
+						</p>
+						<p class="send-time">
+							<span class="mui-icon mui-icon-time"></span><span>2016-6-20</span>
+						</p> </a>
+					</li>
+				</ul>
+			</div>		
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();
+			
+			api.setRefreshHeaderInfo({
+				visible : true,
+				// loadingImgae: 'wgt://image/refresh-white.png',
+				bgColor : '#f2f2f2',
+				textColor : '#4d4d4d',
+				textDown : '下拉刷新...',
+				textUp : '松开刷新...',
+				showTime : true
+			}, function(ret, err) {
+				api.refreshHeaderLoadDone();
+				//curPage = 1;
+				//toQueryList(curPage, pageSize, 'load');
+			});
+		};		
+
+		function openWin(name) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openWin({
+				name : '' + name + '',
+				url : '' + name + '.html',
+				bounces : false,
+				delay : delay,
+				pageParam : {
+				}
+			});
+		}
+	</script>
+</html>

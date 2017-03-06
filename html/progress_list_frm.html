@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>预覆盖进度</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content-padded {
+				margin: 10px 10px 0 10px;
+			}
+			.mui-content {
+				margin: 0;
+			}
+			.mui-table-view {
+				background-color: inherit;
+			}
+			.mui-table-view-cell {
+				background-color: white;
+				margin-bottom: 10px;
+			}
+			input[type=text] {
+				padding-right: 30px;
+				font-size: 14px;
+			}
+			.send-name{
+				display:block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content">
+			<div class="mui-input-row mui-search mui-content-padded" style="width: 100%;position: fixed;display: inline-block;z-index: 9;background-color: #F6F6F6;margin: 0;padding: 10px 10px 0 10px;">
+				<input type="text" placeholder="请输入工单号、集团/楼宇/提单人名称" />
+				<span class="icon-search"></span>
+			</div>
+			<ul class="mui-table-view" style="position: relative;top: 60px;margin-bottom: 50px;">
+				<li class="mui-table-view-cell"  tapmode onclick="openWin('myBuilding_details_win');">
+					<a class="mui-navigate-right">
+					<div class="mui-ellipsis-1">
+						<span class="zxcx-icon"></span>新粤新酒店
+					</div>
+					<p class="send-name">
+						<span class="mui-icon mui-icon-location-filled"></span><span>广州市越秀区环市东路329号</span>
+					</p> 
+					<p class="send-name">
+						<span class="mui-icon mui-icon-person-filled"></span><span>XXX</span>
+					</p>
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script src="../script/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();
+			api.setRefreshHeaderInfo({
+				visible : true,
+				// loadingImgae: 'wgt://image/refresh-white.png',
+				bgColor : '#f2f2f2',
+				textColor : '#4d4d4d',
+				textDown : '下拉刷新...',
+				textUp : '松开刷新...',
+				showTime : true
+			}, function(ret, err) {
+				api.refreshHeaderLoadDone();
+				//curPage = 1;
+				//toQueryList(curPage, pageSize, 'load');
+			});
+		};
+		function serchShowBox() {
+			$api.toggleCls($api.dom('.mui-search'), "mui-hidden");
+		}
+
+		function openWin(name) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openWin({
+				name : '' + name + '',
+				url : '' + name + '.html',
+				bounces : false,
+				delay : delay,
+				pageParam : {
+				}
+			});
+		}
+	</script>
+</html>

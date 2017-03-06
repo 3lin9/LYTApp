@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>政策传达</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content {
+				margin: 0;
+			}
+			.mui-content-padded {
+				margin: 10px 10px 0 10px;
+			}
+
+		</style>
+	</head>
+	<body>
+		<header id="mui-header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">政策传达</h1>
+			<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+		</header>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script src="../script/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		function closeWin() {
+			api.closeWin();
+		}
+
+		apiready = function() {
+			api.parseTapmode();
+			var header = $api.byId('mui-header');
+			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+			api.openFrame({
+				name : 'policy_list_frm',
+				url : 'policy_list_frm.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : headerPos.h,
+					w : headerPos.w,
+					h : 'auto'
+				}
+			})
+		};
+		
+	</script>
+</html>

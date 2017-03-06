@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>我的楼宇</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content-padded {
+				margin: 10px 10px 0 10px;
+			}
+			.mui-content {
+				margin: 0;
+			}
+			.mui-table-view {
+				background-color: inherit;
+			}
+			.mui-table-view-cell {
+				background-color: white;
+				margin-bottom: 10px;
+			}
+			input[type=text] {
+				padding-right: 30px;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+	<body>
+		<header id="mui-header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">我的楼宇</h1>
+			<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+		</header>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script src="../script/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		function closeWin() {
+			api.closeWin();
+		}
+
+		apiready = function() {
+			api.parseTapmode();
+			var header = $api.byId('mui-header');
+			var content = $api.byId('content')
+			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+			api.openFrame({
+				name : 'myBuilding_list_frm',
+				url : 'myBuilding_list_frm.html',
+				bounces : false,
+				rect : {
+					x : 0,
+					y : headerPos.h,
+					w : headerPos.w,
+					h : 'auto'
+				}
+			})
+		};
+	</script>
+</html>

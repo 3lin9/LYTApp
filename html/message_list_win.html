@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>新增预覆盖楼捷报</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style>
+			.mui-card {
+				margin: 7px 2px !important;
+				border: none;
+			}
+			.mui-ellipsis-1 {
+				-webkit-line-clamp: 2;
+			}
+			h5 {
+				display: inline-block;
+			}
+			.message {
+				color: #888;
+			}
+			
+			.readed{
+				filter: grayscale(100%);
+				-webkit-filter: grayscale(100%);
+			}
+		</style>
+	</head>
+	<body>
+		<header id="mui-header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">新增预覆盖楼捷报</h1>
+			<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+		</header>		
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		function closeWin() {
+			api.closeWin();
+		}
+
+		apiready = function() {
+			api.parseTapmode();
+			var header = $api.byId('mui-header');			
+			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+			api.openFrame({
+				name : 'message_list_frm',
+				url : 'message_list_frm.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : headerPos.h,
+					w : headerPos.w,
+					h : 'auto'
+				}
+			})
+		};
+		
+	</script>
+</html>

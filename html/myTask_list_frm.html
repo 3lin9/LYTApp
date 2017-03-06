@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>我的任务</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content {
+				margin: 0;
+			}
+			input[type=text] {
+				padding-right: 30px;
+				font-size: 14px;
+			}
+			.icon-search{
+				top:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content">
+		<div style="width: 100%;position: fixed;display: inline-block;z-index: 9;background-color: #F6F6F6;margin: 0;">
+			<div class="mui-input-row mui-search mui-content-padded" style="margin-bottom: 0;">
+				<input type="text" placeholder="请输入楼宇信息" />
+				<span class="icon-search"></span>
+			</div>
+			<div class="mui-content-padded" style="margin: 0;margin-bottom: 10px; padding: 10px 0; background-color: white;">
+				<div class="head-info mui-text-center">
+					<p >
+						<span class="all Number">本月总次数:<span class="num">10</span></span><span class="all execute">已执行次数:<span class="num">4</span></span>
+					</p>
+					<p class="list-times">
+						<span class="all_among Sales">促销:2</span><span class="all_among Campaign ">宣传:1</span><span class="all_among Visit">拜访:1</span>
+					</p>
+				</div>
+				<article id="doughnutChart" style="width: 50%;margin-left: 15%;">
+					<div class="canvasWrapper">
+						<canvas id="doughnutChartCanvas" width="60%" height="60%"></canvas>
+					</div>
+				</article>
+			</div>
+			</div>
+		</div>
+		<ul class="mui-table-view" style="position:absolute;width:100%;top: 48%;">
+			<li class="mui-table-view-cell"  tapmode onclick="openWin('myTask_issue_win');">
+				<a class="mui-navigate-right">
+				<div class="mui-ellipsis-1">
+					越秀区广舞台二马路
+				</div>
+				<p class="times">
+					<span>当月任务完成次数：<span class="num">3</span></span>
+				</p> </a>
+			</li>
+			<li class="mui-table-view-cell" tapmode onclick="openWin('myTask_details_win');">
+				<a class="mui-navigate-right">
+				<div class="mui-ellipsis-1">
+					越秀区水荫路120号星海苑
+				</div>
+				<p class="times">
+					<span>当月任务完成次数：<span class="num">2</span></span>
+				</p> </a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+				<div class="mui-ellipsis-1">
+					越秀区德政北路457号
+				</div>
+				<p class="times">
+					<span>当月任务完成次数：<span class="num">0</span></span>
+				</p> </a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+				<div class="mui-ellipsis-1">
+					越秀区东山街寺右大街7号
+				</div>
+				<p class="times">
+					<span>当月任务完成次数：<span class="num">1</span></span>
+				</p> </a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+				<div class="mui-ellipsis-1">
+					越秀区永泰路10号
+				</div>
+				<p class="times">
+					<span>当月任务完成次数：<span class="num">10</span></span>
+				</p> </a>
+			</li>
+		</ul>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script src="../script/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../script/Chart.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();
+			var ctx = document.getElementById("doughnutChartCanvas").getContext("2d");
+			var data = [{
+				value : 2,
+				color : "#0b8bd2"
+			}, {
+				value : 1,
+				color : "#ef5665"
+			}, {
+				value : 1,
+				color : "#f4a869"
+			}]
+			var options;
+			var myNewChart = new Chart(ctx).PolarArea(data);
+			new Chart(ctx).Doughnut(data, options);
+			api.setRefreshHeaderInfo({
+				visible : true,
+				// loadingImgae: 'wgt://image/refresh-white.png',
+				bgColor : '#f2f2f2',
+				textColor : '#4d4d4d',
+				textDown : '下拉刷新...',
+				textUp : '松开刷新...',
+				showTime : true
+			}, function(ret, err) {
+				api.refreshHeaderLoadDone();
+				//curPage = 1;
+				//toQueryList(curPage, pageSize, 'load');
+			});
+		};
+		function openWin(name) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openWin({
+				name : '' + name + '',
+				url : '' + name + '.html',
+				bounces : false,
+				delay : delay,
+				pageParam : {
+				}
+			});
+		}
+	</script>
+</html>

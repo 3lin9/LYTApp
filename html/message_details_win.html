@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>捷报详情</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	</head>
+	<body>
+		<header id="mui-header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">捷报详情</h1>
+			<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a><a class="mui-icon mui-icon-home mui-pull-right" tapmode onclick="GoHome();"></a>
+		</header>
+		<script src="../script/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../script/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function closeWin() {
+				api.closeWin();
+			}
+
+			apiready = function() {
+				api.parseTapmode();
+				var header = $api.byId('mui-header');
+				var content = $api.byId('content')
+				$api.fixStatusBar(header);
+				var headerPos = $api.offset(header);
+				api.openFrame({
+					name : 'message_details_frm',
+					url : 'message_details_frm.html',
+					bounces : false,
+					rect : {
+						x : 0,
+						y : headerPos.h,
+						w : headerPos.w,
+						h : 'auto'
+					}
+				})
+			};
+			function GoHome() {
+				api.closeToWin({
+					name : 'testWin'
+				});
+			}
+		</script>
+	</body>
+</html>

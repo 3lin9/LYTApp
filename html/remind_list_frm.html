@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>到期提醒</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.info_left {
+				margin-right: 5px;
+			}
+			.icon-search{
+				top:10px;
+			}
+			.arrow-down {
+			    display: inline-block;
+			    width: 0;
+			    height: 0;
+			    border-left: 6px solid transparent;
+			    border-right: 6px solid transparent;
+			    border-top: 10px solid #C7C7CC;
+			    margin: 0 6px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content" style="margin: 0">
+			<div style="width: 100%;position: fixed;display: inline-block;z-index: 9;background-color: #F6F6F6;margin: 0;">
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary" style="background-color: white;">
+					<a class="mui-control-item" href="#item1" style="border-right: 1px solid #e5e5e5;"> <span id="BeginDate">开始时间</span><span class="beginTimer" tapmode onclick="selectBeginDate();"></span> </a>
+					<a class="mui-control-item" href="#item2"> <span id="EndTime">结束时间</span><span class="beginTimer" tapmode onclick="selectEndDate();"></span> </a>
+				</div>
+				<div class="mui-input-row mui-search" style="margin: 10px 10px 0 10px;height: 40px;  background-color: white;border-radius: 3px;border: 1px solid rgba(0,0,0,.2);">
+					<div class="choice_type" style="position: relative;width: 28%;text-align: center;height:40px;line-height:40px;color: #8f8f94;margin-bottom:15px;display: inline-block">
+						类型
+						<div class="arrow-down"></div>
+					</div>
+					<div class="input_info" style="width: 70%;display: inline-block">
+						<input type="text" placeholder="请输入楼宇信息" style="border: none" />
+						<span class="icon-search"></span>
+					</div>
+				</div>
+				<ul class="mui-table-view mui-table-view-radio" id="list_search">
+				<li class="mui-table-view-cell mui-selected">
+					<a class="mui-navigate-right"> 楼宇信息 </a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right"> 专线信息 </a>
+				</li>
+			</ul>
+			</div>
+			<div style="position: relative;top: 105px;margin-bottom: 50px;">
+				<div class="mui-card detail">
+					<ul class="mui-table-view" tapmode onclick="openWin('myBuilding_details_win');">
+						<li class="mui-table-view-cell details head-info mui-h5">
+							产品自编号：1226123456
+						</li>
+						<li class="mui-table-view-cell">
+							<div>
+								<span class="info_left mui-h5">楼宇名称：</span><span class="attribute">富力阳光美居</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品开始时间：</span><span class="attribute">2016-06-21</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品预计结束时间：</span><span class="attribute">2016-09-21</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-card detail">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell details head-info mui-h5" tapmode onclick="openWin('myBuilding_details_win');">
+							产品自编号：1226123456
+						</li>
+						<li class="mui-table-view-cell">
+							<div>
+								<span class="info_left mui-h5">楼宇名称：</span><span class="attribute">金迪城市花园</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品开始时间：</span><span class="attribute">2016-06-21</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品预计结束时间：</span><span class="attribute">2016-09-21</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-card detail">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell details head-info mui-h5" tapmode onclick="openWin('myBuilding_details_win');">
+							产品自编号：1226123456
+						</li>
+						<li class="mui-table-view-cell">
+							<div>
+								<span class="info_left mui-h5">楼宇名称：</span><span class="attribute">星海花园</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品开始时间：</span><span class="attribute">2016-06-21</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品预计结束时间：</span><span class="attribute">2016-09-21</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-card detail">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell details head-info mui-h5" tapmode onclick="openWin('myBuilding_details_win');">
+							产品自编号：1226123456
+						</li>
+						<li class="mui-table-view-cell">
+							<div>
+								<span class="info_left mui-h5">楼宇名称：</span><span class="attribute">上步花园一期</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品开始时间：</span><span class="attribute">2016-06-21</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品预计结束时间：</span><span class="attribute">2016-09-21</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-card detail">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell details head-info mui-h5" tapmode onclick="openWin('myBuilding_details_win');">
+							产品自编号：1226123456
+						</li>
+						<li class="mui-table-view-cell">
+							<div>
+								<span class="info_left mui-h5">楼宇名称：</span><span class="attribute">兰亭御园</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品开始时间：</span><span class="attribute">2016-06-21</span>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="info_left">
+								<span class="info_left mui-h5">对手产品预计结束时间：</span><span class="attribute">2016-09-21</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();
+			api.setRefreshHeaderInfo({
+				visible : true,
+				// loadingImgae: 'wgt://image/refresh-white.png',
+				bgColor : '#f2f2f2',
+				textColor : '#4d4d4d',
+				textDown : '下拉刷新...',
+				textUp : '松开刷新...',
+				showTime : true
+			}, function(ret, err) {
+				api.refreshHeaderLoadDone();
+				//curPage = 1;
+				//toQueryList(curPage, pageSize, 'load');
+			});
+		};
+		function selectBeginDate() {
+			var curDate = new Date();
+			var strCurdate = curDate.getFullYear() + '-' + curDate.getMonth() + '-' + curDate.getDate();
+			api.openPicker({
+				type : 'date_time',
+				date : strCurdate,
+				title : '请选择开始时间'
+			}, function(ret, err) {
+				if (ret) {
+					//alert(JSON.stringify(ret));
+					var spanYYDate = $api.byId('BeginDate');
+					var month, day;
+					if (ret.month < 10) {
+						month = '0' + ret.month;
+					} else {
+						month = ret.month;
+					}
+					if (ret.day < 10) {
+						day = '0' + ret.day;
+					} else {
+						day = ret.day;
+					}
+					$api.text(spanYYDate, ret.year + '-' + month + '-' + day);
+					$api.append(spanYYDate, "<span class='mui-icon mui-icon-close' onclick='beginTimeClear()'></span>");
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function selectEndDate() {
+			var curDate = new Date();
+			var strCurdate = curDate.getFullYear() + '-' + curDate.getMonth() + '-' + curDate.getDate();
+			api.openPicker({
+				type : 'date_time',
+				date : strCurdate,
+				title : '请选择结束时间'
+			}, function(ret, err) {
+				if (ret) {
+					//alert(JSON.stringify(ret));
+					var spanYYDate = $api.byId('EndTime');
+					var month, day;
+					if (ret.month < 10) {
+						month = '0' + ret.month;
+					} else {
+						month = ret.month;
+					}
+					if (ret.day < 10) {
+						day = '0' + ret.day;
+					} else {
+						day = ret.day;
+					}
+					$api.text(spanYYDate, ret.year + '-' + month + '-' + day);
+					$api.append(spanYYDate, "<span class='mui-icon mui-icon-close' onclick='endTimeClear()'></span>");
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function beginTimeClear() {
+			$api.text($api.byId('BeginDate'), '开始时间');
+		}
+
+		function endTimeClear() {
+			$api.text($api.byId('EndTime'), '结束时间');
+		}
+
+		function closeWin() {
+			api.closeFrame();
+		}
+
+		function openWin(name) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openWin({
+				name : '' + name + '',
+				url : '' + name + '.html',
+				bounces : false,
+				delay : delay,
+				pageParam : {
+				}
+			});
+		}
+	</script>
+</html>

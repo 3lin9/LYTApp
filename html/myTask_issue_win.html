@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>任务执行</title>
+		<link href="../css/mui.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content {
+				margin: 0;
+			}
+			.mui-table-view {
+				background-color: inherit;
+				margin-top: 10px;
+			}
+			.mui-table-view-cell {
+				background-color: white;
+			}
+			.mui-segmented-control {
+				border: none;
+			}
+			.mui-segmented-control .mui-control-item:first-child {
+				border-left-width: 1px;
+			}
+			.mui-segmented-control .mui-control-item {
+				display: inline;
+				margin: 0 20px;
+				padding: 8px 20px;
+				border: 1px solid #07d485;
+				border-radius: 3px;
+				color: inherit;
+			}
+			.mui-segmented-control .mui-control-item.mui-active {
+				background-color: #07d485;
+			}
+		</style>
+	</head>
+	<body>
+		<header id="mui-header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">任务执行</h1>
+			<a tapmode onclick="closeWin();" class="mui-icon mui-icon-left-nav mui-pull-left"></a><a class="mui-icon mui-icon-home mui-pull-right" tapmode onclick="GoHome();"></a>
+		</header>
+		<script src="../script/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../script/mui.min.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			apiready = function() {
+				api.parseTapmode();
+				var header = $api.byId('mui-header');
+				var content = $api.byId('content')
+				$api.fixStatusBar(header);
+				var headerPos = $api.offset(header);
+				api.openFrame({
+					name : 'myTask_issue_frm',
+					url : 'myTask_issue_frm.html',
+					bounces : false,
+					rect : {
+						x : 0,
+						y : headerPos.h,
+						w : headerPos.w,
+						h : 'auto'
+					}
+				})
+			};
+			function listShowBox() {
+				$api.toggleCls($api.dom('.task-list'), "mui-hidden");
+			}
+
+			function closeWin() {
+				api.closeWin();
+			}
+
+			function GoHome() {
+				api.closeToWin({
+					name : 'testWin'
+				});
+			}
+		</script>
+	</body>
+</html>

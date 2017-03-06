@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>新增预覆盖楼捷报</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style>
+			body{background-color:#fff!important;}
+			.mui-card {
+				margin: 7px 2px !important;
+				border: none;
+			}
+			.mui-ellipsis-1 {
+				-webkit-line-clamp: 2;
+			}
+			h5 {
+				display: inline-block;
+			}
+			.message {
+				color: #888;
+			}
+			
+			.readed{
+				filter: grayscale(100%);
+				-webkit-filter: grayscale(100%);
+			}
+			.list_xxx span{
+				width:48%;
+				height:40px;
+				line-height:40px;
+				font-size:13px;
+				display:inline-block;
+			}
+			.time_xxx{
+				font-size:13px;
+			}
+			.list_xxxx{
+				height:40px;
+				line-height:40px;
+				font-size:13px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content">
+				<ul class="mui-table-view UNREAD">
+					<li class="mui-table-view-cell">
+						<div class="list_xxx">
+							<span>更新人:张浩宇</span>
+							<span>流程状态:设计勘察</span>
+						</div>
+						<div class="list_xxxx">
+							<span>瓶颈:共建共享</span>
+						</div>
+						<span class="time_xxx">更新时间:2015-10-25 15：34：43</span>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="list_xxx">
+							<span>更新人:张浩宇</span>
+							<span>流程状态:集成交维验收
+						</div>
+						<div class="list_xxxx">
+							</span><span>瓶颈:客户问题(非需求变更)</span>
+						</div>
+						<span class="time_xxx">更新时间:2015-10-25 15：34：43</span>
+					</li>
+				</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			api.parseTapmode();
+			
+			api.setRefreshHeaderInfo({
+				visible : true,
+				// loadingImgae: 'wgt://image/refresh-white.png',
+				bgColor : '#f2f2f2',
+				textColor : '#4d4d4d',
+				textDown : '下拉刷新...',
+				textUp : '松开刷新...',
+				showTime : true
+			}, function(ret, err) {
+				api.refreshHeaderLoadDone();
+				//curPage = 1;
+				//toQueryList(curPage, pageSize, 'load');
+			});
+		};		
+
+		function openWin(name) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openWin({
+				name : '' + name + '',
+				url : '' + name + '.html',
+				bounces : false,
+				delay : delay,
+				pageParam : {
+				}
+			});
+		}
+	</script>
+</html>

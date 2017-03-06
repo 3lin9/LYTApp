@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>任务执行</title>
+		<link href="../css/mui.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content {
+				margin: 0;
+			}
+			.mui-table-view {
+				background-color: inherit;
+				margin-top: 10px;
+			}
+			.mui-table-view-cell {
+				background-color: white;
+			}
+			.mui-segmented-control {
+				border: none;
+			}
+			.mui-segmented-control .mui-control-item:first-child {
+				border-left-width: 1px;
+			}
+			.mui-segmented-control .mui-control-item {
+				display: inline;
+				margin: 0 20px;
+				padding: 8px 20px;
+				border: 1px solid #07d485;
+				border-radius: 3px;
+				color: inherit;
+			}
+			.mui-segmented-control .mui-control-item.mui-active {
+				background-color: #07d485;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div class="task-list-type"  style="font-weight: bold;">
+						请选择任务类型
+					</div>
+					<div class="task-list" style="margin: 8px 0;text-align: center;">
+						<div id="segmentedControl" class="mui-segmented-control">
+							<a class="mui-control-item mui-active"> 拜访 </a>
+							<a class="mui-control-item"> 促销 </a>
+							<a class="mui-control-item"> 宣传 </a>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell list-quf">
+					<span class="mui-icon mui-icon-location"></span>越秀区水荫二横路1号
+					<div class="mui-btn mui-btn-primary" style="float: right;">
+						重新定位
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div>
+						图片拍照上传：
+					</div>
+					<div class="img-list">
+						<img src="../image/123.png" />
+					</div>
+					<div class="img-list">
+						<img src="../image/123.png" />
+					</div>
+					<div class="add-image"></div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row">
+						<textarea  rows="3" cols="1" placeholder="请输入内容"></textarea>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row">
+						<div class="mui-btn mui-btn-primary" style="padding: 10px;width: 100%;float: none;">
+							提交
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script src="../script/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../script/mui.min.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			apiready = function() {
+				api.parseTapmode();
+			}
+			function listShowBox() {
+				$api.toggleCls($api.dom('.task-list'), "mui-hidden");
+			}
+		</script>
+	</body>
+</html>

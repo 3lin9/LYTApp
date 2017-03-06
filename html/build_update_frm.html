@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>楼宇详情</title>
+		<link href="../css/mui.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content {
+				margin: 0;
+			}
+			.mui-table-view {
+				background-color: inherit;
+			}
+			.mui-table-view-cell {
+				background-color: white;
+			}
+			.add_update_btn{
+				width: 100%;
+			    position: fixed;
+			    height: 40px;
+			    text-align: right;
+			    padding: 6px;
+			    background-color: #fafafa;
+			    z-index: 10;
+			}
+			.mui-table-view-cell label {
+			    font-size: 15px;
+			    width: 25%;
+			    color: #666;
+			    display: inline-block;
+			}
+			.mui-table-view-cell .attrbute {
+			    display: inline-block;
+			    color: #5da8f9;
+			    font-size: 15px;
+			    font-weight: bold;
+			    width: 70%;
+			}
+			
+			.attrbute input{
+			    margin-bottom: 2px;
+		        padding: 6px 10px;
+			}
+			.seleted{
+			position:relative;
+				 margin-bottom: 2px;
+   				 padding: 6px 10px;
+   				 border: 1px solid rgba(0,0,0,.2);
+    			 border-radius: 3px;
+    			 width: 100%;
+    			 height: 40px;
+    			 display: inline-block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content">
+			<div style="position: relative;margin-bottom: 50px;">
+				<div id="item3" class="mui-control-content mui-active">
+					<div class="add_update_btn">
+						<div class="mui-btn mui-btn-primary" tapmode onclick="openWin('head_info','楼内客户信息新增','build_update');">
+							保存
+						</div>
+					</div>
+					<ul class="mui-table-view"  style="top:40px;">
+						<li class="mui-table-view-cell">
+							<label>对手产品自编号:</label>
+							<div class="attrbute">
+								<input type="text" value="012434234">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>对手产品开始时间:</label>
+							<div class="attrbute">
+								<input id="BeginDate" type="text"  onclick="selectDate(this)">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>对手产品预计结束时间:</label>
+							<div class="attrbute">
+								<input type="text"  onclick="selectDate(this)">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>产品类型:</label>
+							<div class="attrbute">
+								<input type="text" value="流量产品">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>资费:</label>
+							<div class="attrbute">
+								<input type="text" value="100">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>客户联系人:</label>
+							<div class="attrbute">
+								<input type="text" value="张三"> 
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>联系方式:</label>
+							<div class="attrbute">
+								<input type="text" value="13800138000">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>对应移动业务:</label>
+							<div class="attrbute" id="selector">
+								<div class="seleted">飞信业务 1<span class="arrow-down"></span></div>
+							</div>
+							<ul class="mui-table-view mui-table-view-radio mui-hidden" id="list_search">
+								<li class="mui-table-view-cell mui-selected">
+									<a class="mui-navigate-right">
+										飞信业务 1
+									</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a class="mui-navigate-right">
+										飞信业务 2
+									</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a class="mui-navigate-right">
+										飞信业务 3
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>使用业务:</label>
+							<div class="attrbute">
+								<input type="text" value="聊天业务">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>数量:</label>
+							<div class="attrbute">
+								<input type="text" value="10">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>带宽:</label>
+							<div class="attrbute">
+								<input type="text" value="20M">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>月收入:</label>
+							<div class="attrbute">
+								<input type="text" value="10000元">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>地址:</label>
+							<div class="attrbute">
+								<input type="text" value="广州市天河区天河北路888号"> 
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="../script/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../script/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			apiready = function() {
+				api.parseTapmode();
+			}
+			$api.addEvt($api.byId('selector'), 'click', function() {
+				$api.toggleCls($api.byId('list_search'), 'mui-hidden');
+			})
+			
+			$api.addEvt($api.byId('list_search'), 'click', function(){
+				
+				$api.toggleCls(this, 'mui-hidden');
+			});
+			function selectDate(_this) {
+			var curDate = new Date();
+			var strCurdate = curDate.getFullYear() + '-' + curDate.getMonth() + '-' + curDate.getDate();
+			api.openPicker({
+				type : 'date_time',
+				date : strCurdate,
+				title : '请选择开始时间'
+			}, function(ret, err) {
+				if (ret) {
+					//alert(JSON.stringify(ret));
+					//var spanYYDate = $api.byId('BeginDate');
+					var month, day;
+					if (ret.month < 10) {
+						month = '0' + ret.month;
+					} else {
+						month = ret.month;
+					}
+					if (ret.day < 10) {
+						day = '0' + ret.day;
+					} else {
+						day = ret.day;
+					}
+					$api.val(_this, ret.year + '-' +month + '-' + day);
+					
+					//salesBeginTime = ret.year + '-' + month + '-' + day + ' 00:00:00';					
+					//$api.text($api.byId('txtBeginDate'), salesBeginTime);
+					
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+		</script>
+	</body>
+</html>

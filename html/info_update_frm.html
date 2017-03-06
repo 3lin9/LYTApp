@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>楼宇详情</title>
+		<link href="../css/mui.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style type="text/css">
+			.mui-content {
+				margin: 0;
+			}
+			.mui-table-view {
+				background-color: inherit;
+			}
+			.mui-table-view-cell {
+				background-color: white;
+			}
+			img{
+				float:right;
+				width:25px;
+				vertical-align: middle;
+			}
+			.add_update_btn{
+				width: 100%;
+			    position: fixed;
+			    height: 40px;
+			    text-align: right;
+			    padding: 6px;
+			    background-color: #fafafa;
+			    z-index: 10;
+			}
+			.mui-table-view-cell label {
+			    font-size: 15px;
+			    width: 25%;
+			    color: #666;
+			    display: inline-block;
+			}
+			.mui-table-view-cell .attrbute {
+			    display: inline-block;
+			    color: #5da8f9;
+			    font-size: 15px;
+			    font-weight: bold;
+			    width: 70%;
+			}
+			
+			.attrbute input{
+			    margin-bottom: 2px;
+		        padding: 6px 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content" id="content">
+			<div style="position: relative;margin-bottom: 50px;">
+				<div id="item1" class="mui-control-content mui-active">
+					<div class="add_update_btn">
+						<div class="mui-btn mui-btn-primary" tapmode onclick="openWin('head_info','基本信息修改','info_update');">
+							保存
+						</div>
+					</div>
+					<ul class="mui-table-view"  style="top:40px;">
+						<li class="mui-table-view-cell">
+							<label>分公司:</label>
+							<div class="attrbute">
+								越秀分公司
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>厚/薄覆盖:</label>
+							<div class="attrbute">
+								薄覆盖
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>楼宇经理:</label>
+							<div class="attrbute">
+								杨少芹
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>客户经理:</label>
+							<div class="attrbute">
+								古宇飞
+							</div>
+						</li>
+						<li class="mui-table-view-cell list-quf">
+							<label>客户经理联系方式:</label>
+							<div class="attrbute">
+								13519234234
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>物业公司:</label>
+							<div class="attrbute">
+								<input type="text" value="广州天秀物业管理有限公司">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>物业经理:</label>
+							<div class="attrbute">
+								<input type="text" value="刘胜华">
+							</div>
+						</li>
+						<li class="mui-table-view-cell list-quf">
+							<label>物业经理联系方式:</label>
+							<div class="attrbute">
+								<input type="tel" value="13721321123">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>包干商公司:</label>
+							<div class="attrbute">
+								铁通
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>包干商姓名:</label>
+							<div class="attrbute">
+								田木兰
+							</div>
+						</li>
+						<li class="mui-table-view-cell list-quf">
+							<label>包干商联系方式:</label>
+							<div class="attrbute">
+								13532392432
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>装维单位:</label>
+							<div class="attrbute">
+								<input type="text" value="怡创">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>装维人员:</label>
+							<div class="attrbute">
+								<input type="text" value="吕春秋">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>装维人员联系方式:</label>
+							<div class="attrbute">
+								<input type="tel" value="1728389821">
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<label>是否零渗透:</label>
+							<div class="attrbute">
+								否
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="../script/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../script/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			apiready = function() {
+				api.parseTapmode();
+			}
+			function openWin(name,headname,framepage) {
+			var delay = 0;
+			if (api.systemType != 'ios') {
+				delay = 300;
+			}
+			api.openWin({
+				name : '' + name + '',
+				url : '' + name + '_win.html',
+				bounces : false,
+				delay : delay,
+				pageParam : {
+					HeadName:headname,
+					Page:framepage
+				}
+			});
+		}
+		</script>
+	</body>
+</html>
